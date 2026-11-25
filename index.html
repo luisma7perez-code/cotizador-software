@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotizador y Solicitud de Software Administrativo a Medida</title>
+    <style>
+        :root {
+            --color-primario: #0E7C86;
+            --color-primario-hover: #0A5F67;
+            --color-primario-suave: #E6F4F5;
+            --color-barra: #0B2E3A;
+            --color-fondo: #F3F6F9;
+            --color-tarjeta: #FFFFFF;
+            --color-texto: #1F2D3D;
+            --color-texto-suave: #6B7C8C;
+            --color-borde: #DCE3EA;
+            --color-exito: #2E9E6B;
+            --color-aviso: #E0902B;
+            --color-peligro: #D64545;
+            --sombra: 0 4px 20px rgba(11, 46, 58, 0.07);
+            --radio: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            line-height: 1.5;
+        }
+
+        /* Header / Navbar */
+        header {
+            background: linear-gradient(135deg, var(--color-barra) 0%, #12485A 100%);
+            color: #FFFFFF;
+            padding: 2rem 1.5rem;
+            border-bottom: 4px solid var(--color-primario);
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .brand h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .brand p {
+            color: #B8D4DC;
+            font-size: 0.95rem;
+            margin-top: 0.35rem;
+            max-width: 650px;
+        }
+
+        .currency-switch {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.4rem;
+            border-radius: 10px;
+            display: flex;
+            gap: 0.3rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .currency-btn {
+            background: transparent;
+            color: #D0E4EA;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 7px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .currency-btn.active {
+            background: var(--color-primario);
+            color: #FFFFFF;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Barra de Contacto Directo */
+        .contact-bar {
+            background: #FFFFFF;
+            border-bottom: 1px solid var(--color-borde);
+            padding: 0.85rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(11, 46, 58, 0.04);
+        }
+
+        .contact-bar-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            font-size: 0.92rem;
+        }
+
+        .contact-bar-title {
+            font-weight: 700;
+            color: var(--color-barra);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .contact-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.88rem;
+            transition: all 0.2s;
+        }
+
+        .contact-pill.wa {
+            background: #E8F8F0;
+            color: #1E7E4E;
+            border: 1px solid #BCEAD2;
+        }
+
+        .contact-pill.wa:hover {
+            background: #25D366;
+            color: #FFFFFF;
+        }
+
+        .contact-pill.mail {
+            background: var(--color-primario-suave);
+            color: var(--color-primario);
+            border: 1px solid #B8E1E5;
+        }
+
+        .contact-pill.mail:hover {
+            background: var(--color-primario);
+            color: #FFFFFF;
+        }
+
+        /* Main Layout */
+        .container {
+            max-width: 1280px;
+            margin: 2rem auto;
+            padding: 0 1.5rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 980px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Cards & Sections */
+        .card {
+            background: var(--color-tarjeta);
+            border: 1px solid var(--color-borde);
+            border-radius: var(--radio);
+            padding: 1.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--sombra);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.85rem;
+            border-bottom: 1px solid var(--color-borde);
+        }
+
+        .step-badge {
+            background: var(--color-primario);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .section-header h2 {
+            font-size: 1.15rem;
+            color: var(--color-barra);
+            font-weight: 700;
+        }
+
+        .section-desc {
+            font-size: 0.88rem;
+            color: var(--color-texto-suave);
+            margin-bottom: 1.25rem;
+        }
+
+        /* Grid of Options */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        .option-card {
+            border: 2px solid var(--color-borde);
+            border-radius: 10px;
+            padding: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            background: #FFFFFF;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .option-card:hover {
+            border-color: #96C9CE;
+            transform: translateY(-2px);
+        }
+
+        .option-card.selected {
+            border-color: var(--color-primario);
+            background-color: var(--color-primario-suave);
+        }
+
+        .option-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .option-title {
+            font-weight: 700;
+            font-size: 0.98rem;
+            color: var(--color-barra);
+        }
+
+        .option-icon {
+            font-size: 1.35rem;
+        }
+
+        .option-desc {
+            font-size: 0.82rem;
+            color: var(--color-texto-suave);
+            margin-bottom: 0.85rem;
+        }
+
+        .option-price {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--color-primario);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0.6rem;
+            border-top: 1px dashed var(--color-borde);
+        }
+
+        .tag-base {
+            font-size: 0.72rem;
+            background: var(--color-barra);
+            color: white;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* Modules Checklist */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 0.85rem;
+        }
+
+        .module-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.9rem;
+            border: 1.5px solid var(--color-borde);
+            border-radius: 9px;
+            cursor: pointer;
+            transition: all 0.15s;
+            background: #FAFCFD;
+        }
+
+        .module-item:hover {
+            border-color: var(--color-primario);
+            background: #FFFFFF;
+        }
+
+        .module-item.checked {
+            border-color: var(--color-primario);
+            background: var(--color-primario-suave);
+        }
+
+        .module-item input[type="checkbox"] {
+            margin-top: 3px;
+            accent-color: var(--color-primario);
+            width: 17px;
+            height: 17px;
+            cursor: pointer;
+        }
+
+        .module-info {
+            flex: 1;
+        }
+
+        .module-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--color-texto);
+            display: block;
+        }
+
+        .module-detail {
+            font-size: 0.78rem;
+            color: var(--color-texto-suave);
+            display: block;
+            margin-top: 2px;
+        }
+
+        .module-cost {
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: var(--color-primario);
+            margin-top: 4px;
+            display: inline-block;
+        }
+
+        /* Form Inputs */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-texto);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        textarea {
+            padding: 0.65rem 0.85rem;
+            border: 1.5px solid var(--color-borde);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--color-texto);
+            background: #FFFFFF;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--color-primario);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 85px;
+        }
+
+        /* Sticky Summary Sidebar */
+        .summary-card {
+            position: sticky;
+            top: 1.5rem;
+            background: var(--color-tarjeta);
+            border: 2px solid var(--color-primario);
+            border-radius: var(--radio);
+            padding: 1.6rem;
+            box-shadow: 0 10px 30px rgba(14, 124, 134, 0.12);
+        }
+
+        .summary-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--color-barra);
+            padding-bottom: 0.85rem;
+            border-bottom: 1px solid var(--color-borde);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .badge-time {
+            background: #E8F6F0;
+            color: var(--color-exito);
+            font-size: 0.78rem;
+            padding: 3px 9px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        .breakdown-list {
+            margin: 1rem 0;
+            max-height: 260px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.86rem;
+            padding: 0.45rem 0;
+            border-bottom: 1px dashed #EAEFF4;
+            gap: 0.5rem;
+        }
+
+        .breakdown-row span:first-child {
+            color: var(--color-texto);
+        }
+
+        .breakdown-row span:last-child {
+            font-weight: 600;
+            color: var(--color-barra);
+            white-space: nowrap;
+        }
+
+        .total-box {
+            background: var(--color-barra);
+            color: #FFFFFF;
+            padding: 1.15rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .total-label {
+            font-size: 0.82rem;
+            color: #B8D4DC;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .total-amount {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0.2rem 0;
+            color: #FFFFFF;
+        }
+
+        .payment-split {
+            font-size: 0.8rem;
+            color: #9EE0D8;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255,255,255,0.15);
+            padding-top: 0.5rem;
+            margin-top: 0.4rem;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: var(--color-primario);
+            color: #FFFFFF;
+            border: none;
+            padding: 0.9rem 1.2rem;
+            border-radius: 9px;
+            font-size: 0.96rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primario-hover);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            background: #FFFFFF;
+            color: var(--color-barra);
+            border: 1.5px solid var(--color-borde);
+            padding: 0.7rem 1rem;
+            border-radius: 9px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 0.65rem;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-fondo);
+            border-color: var(--color-texto-suave);
+        }
+
+        .preset-banner {
+            background: #FFF9EE;
+            border: 1px solid #F5D7A1;
+            border-radius: 9px;
+            padding: 0.85rem 1rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .preset-banner span {
+            font-size: 0.86rem;
+            color: #7A4F08;
+        }
+
+        .btn-preset {
+            background: var(--color-aviso);
+            color: white;
+            border: none;
+            padding: 0.45rem 0.9rem;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-preset:hover {
+            filter: brightness(0.95);
+        }
+
+        /* Sección Contáctanos Inferior */
+        .contact-section {
+            max-width: 1280px;
+            margin: 0 auto 3.5rem;
+            padding: 0 1.5rem;
+        }
+
+        .contact-card {
+            background: linear-gradient(135deg, var(--color-barra) 0%, #12485A 100%);
+            color: #FFFFFF;
+            border-radius: var(--radio);
+            padding: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: var(--sombra);
+        }
+
+        .contact-card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .contact-card p {
+            color: #B8D4DC;
+            font-size: 0.92rem;
+            max-width: 580px;
+        }
+
+        .contact-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .contact-btn-big {
+            padding: 0.85rem 1.35rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: transform 0.15s;
+        }
+
+        .contact-btn-big:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Alerta de estado de envío */
+        .status-alert {
+            display: none;
+            padding: 1rem;
+            border-radius: 9px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .status-alert.success {
+            display: block;
+            background: #E8F6F0;
+            color: #1B6B46;
+            border: 1px solid #A8DEC5;
+        }
+
+        /* Modal Proforma */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(11, 46, 58, 0.65);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #FFFFFF;
+            max-width: 680px;
+            width: 100%;
+            border-radius: 12px;
+            padding: 2rem;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .proforma-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid var(--color-primario);
+            padding-bottom: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .proforma-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.88rem;
+        }
+
+        .proforma-table th {
+            background: var(--color-fondo);
+            text-align: left;
+            padding: 0.6rem;
+            border-bottom: 1px solid var(--color-borde);
+            color: var(--color-barra);
+        }
+
+        .proforma-table td {
+            padding: 0.6rem;
+            border-bottom: 1px solid #EEF2F6;
+        }
+
+        .proforma-table td:last-child, .proforma-table th:last-child {
+            text-align: right;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #modalProforma, #modalProforma * {
+                visibility: visible;
+            }
+            #modalProforma {
+                position: absolute;
+                left: 0;
+                top: 0;
+                background: white;
+                padding: 0;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-container">
+        <div class="brand">
+            <h1>💻 Desarrollo de Software Administrativo &amp; Bases de Datos</h1>
+            <p>Configura los módulos de tu sistema a medida (Clínicas, Comercios, Inventarios, Escuelas o Talleres) y obtén un presupuesto exacto al instante.</p>
+        </div>
+        <div class="currency-switch" title="Cambiar moneda de cotización">
+            <button type="button" class="currency-btn active" id="btnGTQ" onclick="setCurrency('GTQ')">🇬🇹 Quetzales (Q)</button>
+            <button type="button" class="currency-btn" id="btnUSD" onclick="setCurrency('USD')">🇺🇸 Dólares ($)</button>
+        </div>
+    </div>
+</header>
+
+<!-- BARRA SUPERIOR DE CONTACTO -->
+<div class="contact-bar">
+    <div class="contact-bar-inner">
+        <span class="contact-bar-title">📞 ¿Tienes dudas o quieres atención directa? Contáctanos:</span>
+        <div class="contact-links">
+            <a href="https://wa.me/50237660004" target="_blank" class="contact-pill wa">
+                💬 Tel / WhatsApp: 3766-0004
+            </a>
+            <a href="mailto:luisma7perez@gmail.com" class="contact-pill mail">
+                ✉️ Correo: luisma7perez@gmail.com
+            </a>
+        </div>
+    </div>
+</div>
+
+<main class="container">
+    <!-- COLUMNA IZQUIERDA: CONFIGURADOR -->
+    <div class="configurator">
+
+        <!-- PASO 1: RUBRO DEL SISTEMA -->
+        <section class="card">
+            <div class="section-header">
+                <span class="step-badge">1</span>
+                <h2>Tipo de Sistema / Rubro del Negocio</h2>
+            </div>
+            <p class="section-desc">Selecciona la plantilla base según la actividad de tu empresa o consultorio. Incluye arquitectura modular, interfaz moderna y base de datos relacional.</p>
+
+            <div class="preset-banner">
+                <span>💡 <strong>¿Buscas un sistema como el de Clínica Dental completa?</strong> Carga nuestra configuración recomendada con Odontograma y Ortodoncia.</span>
+                <button type="button" class="btn-preset" onclick="cargarEjemploDental()">Cargar Ejemplo Clínica Dental</button>
+            </div>
+
+            <div class="options-grid" id="rubrosGrid"></div>
+        </section>
+
+        <!-- PASO 2: ARQUITECTURA DE BASE DE DATOS Y PLATAFORMA -->
+        <section class="card">
+            <div class="section-header">
+                <span class="step-badge">2</span>
+                <h2>Plataforma y Motor de Base de Datos</h2>
+            </div>
+            <p class="section-desc">Define dónde se instalará el programa y cómo se almacenará la información.</p>
+
+            <div class="options-grid" id="plataformaGrid"></div>
+        </section>
+
+        <!-- PASO 3: MÓDULOS FUNCIONALES -->
+        <section class="card">
+            <div class="section-header">
+                <span class="step-badge">3</span>
+                <h2>Módulos y Funcionalidades Específicas</h2>
+            </div>
+            <p class="section-desc">Marca únicamente las herramientas que necesitas operar en tu día a día.</p>
+
+            <div class="modules-grid" id="modulosGrid"></div>
+        </section>
+
+        <!-- PASO 4: EXTRAS, SOPORTE Y ENTREGA -->
+        <section class="card">
+            <div class="section-header">
+                <span class="step-badge">4</span>
+                <h2>Extras Técnicos y Tiempo de Entrega</h2>
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="usuariosSelect">Cantidad de Usuarios / Equipos</label>
+                    <select id="usuariosSelect" onchange="recalcular()">
+                        <option value="0" data-days="0">1 Usuario (Monopuesto) — Incluido</option>
+                        <option value="750" data-days="2">2 a 5 Usuarios en Red Local (+Q750)</option>
+                        <option value="1600" data-days="4">6 a 15 Usuarios / Multi-sucursal (+Q1,600)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="urgenciaSelect">Prioridad de Desarrollo</label>
+                    <select id="urgenciaSelect" onchange="recalcular()">
+                        <option value="1.0" data-days="0">Estándar (Tiempo normal) — Sin recargo</option>
+                        <option value="1.25" data-days="-4">Prioritario / Urgente (-25% tiempo, +25% costo)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="soporteSelect">Póliza de Soporte y Mantenimiento</label>
+                    <select id="soporteSelect" onchange="recalcular()">
+                        <option value="0">30 días de garantía técnica — Incluido</option>
+                        <option value="600">6 meses de soporte y actualizaciones (+Q600)</option>
+                        <option value="1100">1 año de soporte prioritario + respaldos (+Q1,100)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="capacitacionSelect">Capacitación al Personal</label>
+                    <select id="capacitacionSelect" onchange="recalcular()">
+                        <option value="0">Manual de usuario en PDF — Incluido</option>
+                        <option value="350">2 sesiones virtuales en vivo por Zoom/Meet (+Q350)</option>
+                        <option value="700">Capacitación presencial + video tutoriales (+Q700)</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- PASO 5: DATOS DEL CLIENTE PARA EL PEDIDO -->
+        <section class="card">
+            <div class="section-header">
+                <span class="step-badge">5</span>
+                <h2>Datos para Registrar y Enviar tu Pedido</h2>
+            </div>
+            <p class="section-desc">Al enviar el formulario, tu cotización llegará directamente a nuestro correo (<strong>luisma7perez@gmail.com</strong>) para confirmar el inicio del desarrollo.</p>
+
+            <form id="pedidoForm" onsubmit="enviarPedidoCorreo(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="clienteNombre">Nombre Completo *</label>
+                        <input type="text" id="clienteNombre" name="Nombre_Cliente" required placeholder="Ej. Dra. Aracely González">
+                    </div>
+                    <div class="form-group">
+                        <label for="clienteNegocio">Nombre de la Clínica / Empresa *</label>
+                        <input type="text" id="clienteNegocio" name="Empresa_Clinica" required placeholder="Ej. Clínica Dental Sonrisa">
+                    </div>
+                    <div class="form-group">
+                        <label for="clienteTelefono">Teléfono / WhatsApp *</label>
+                        <input type="tel" id="clienteTelefono" name="Telefono_WhatsApp" required placeholder="Ej. 5555-1234">
+                    </div>
+                    <div class="form-group">
+                        <label for="clienteEmail">Tu Correo Electrónico *</label>
+                        <input type="email" id="clienteEmail" name="Correo_Cliente" required placeholder="correo@ejemplo.com">
+                    </div>
+                    <div class="form-group full">
+                        <label for="clienteNotas">Detalles adicionales o requerimientos especiales</label>
+                        <textarea id="clienteNotas" name="Notas_Adicionales" placeholder="Describe si necesitas importar datos desde Excel, colores de tu marca, campos especiales en expedientes, etc."></textarea>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <!-- COLUMNA DERECHA: RESUMEN DE COTIZACIÓN -->
+    <aside class="summary-card">
+        <div class="summary-title">
+            <span>Resumen de Inversión</span>
+            <span class="badge-time" id="tiempoEstimado">⏱ 10 días hábiles</span>
+        </div>
+
+        <div class="breakdown-list" id="breakdownList"></div>
+
+        <div class="total-box">
+            <div class="total-label">Presupuesto Total Estimado</div>
+            <div class="total-amount" id="totalAmount">Q 0.00</div>
+            <div class="payment-split">
+                <span>50% Anticipo: <strong id="anticipoAmount">Q 0.00</strong></span>
+                <span>50% Entrega: <strong id="entregaAmount">Q 0.00</strong></span>
+            </div>
+        </div>
+
+        <button type="submit" form="pedidoForm" id="btnSubmitPedido" class="btn-primary">
+            ✉️ Enviar Pedido al Correo y Ver Proforma
+        </button>
+        <button type="button" class="btn-secondary" onclick="enviarWhatsAppDirecto()">
+            💬 Confirmar también por WhatsApp
+        </button>
+    </aside>
+</main>
+
+<!-- APARTADO DE CONTÁCTANOS -->
+<section class="contact-section">
+    <div class="contact-card">
+        <div>
+            <h3>🤝 Contáctanos directamente</h3>
+            <p>¿Necesitas asesoría personalizada antes de confirmar tu sistema administrativo o deseas una demostración en vivo? Comunícate con nosotros por llamada, WhatsApp o correo electrónico.</p>
+        </div>
+        <div class="contact-actions">
+            <a href="https://wa.me/50237660004" target="_blank" class="contact-btn-big" style="background: #25D366; color: #FFFFFF;">
+                📱 Llamar / WhatsApp: 3766-0004
+            </a>
+            <a href="mailto:luisma7perez@gmail.com?subject=Consulta%20Sistema%20Administrativo" class="contact-btn-big" style="background: #FFFFFF; color: var(--color-barra);">
+                ✉️ luisma7perez@gmail.com
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- MODAL DE PROFORMA / RESUMEN FINAL -->
+<div class="modal-overlay" id="modalProforma">
+    <div class="modal-content">
+        <div id="alertaEnvio" class="status-alert success">
+            ✅ ¡Pedido enviado! La solicitud con todo el desglose ha sido enviada a <strong>luisma7perez@gmail.com</strong>. Pronto nos pondremos en contacto contigo para confirmar.
+        </div>
+
+        <div class="proforma-header">
+            <div>
+                <h2 style="color: var(--color-barra); font-size: 1.35rem;">Orden de Pedido y Cotización Formal</h2>
+                <p style="color: var(--color-texto-suave); font-size: 0.85rem;" id="proformaCodigo">Ref: #COT-2026-001</p>
+            </div>
+            <div style="text-align: right; font-size: 0.85rem;">
+                <strong id="proformaFecha"></strong><br>
+                <span style="color: var(--color-primario); font-weight: 600;">Contacto: 3766-0004</span>
+            </div>
+        </div>
+
+        <div style="background: var(--color-fondo); padding: 0.9rem; border-radius: 8px; font-size: 0.88rem; margin-bottom: 1rem;" id="proformaClienteInfo"></div>
+
+        <table class="proforma-table">
+            <thead>
+                <tr>
+                    <th>Concepto / Módulo Seleccionado</th>
+                    <th>Inversión</th>
+                </tr>
+            </thead>
+            <tbody id="proformaTablaBody"></tbody>
+        </table>
+
+        <div style="text-align: right; margin-top: 1rem; padding-top: 0.75rem; border-top: 2px solid var(--color-barra);">
+            <p style="font-size: 0.9rem; color: var(--color-texto-suave);">Tiempo estimado de desarrollo: <strong id="proformaTiempo" style="color: var(--color-texto);"></strong></p>
+            <p style="font-size: 1.35rem; font-weight: 800; color: var(--color-barra); margin-top: 0.25rem;">TOTAL: <span id="proformaTotal"></span></p>
+            <p style="font-size: 0.82rem; color: var(--color-primario); font-weight: 600;" id="proformaPagos"></p>
+        </div>
+
+        <div class="modal-actions no-print">
+            <button type="button" class="btn-primary" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+            <button type="button" class="btn-primary" style="background: #25D366;" onclick="enviarWhatsAppDirecto()">📲 Confirmar por WhatsApp (3766-0004)</button>
+            <button type="button" class="btn-secondary" style="margin-top: 0;" onclick="cerrarModal()">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const CORREO_DESTINO = "luisma7perez@gmail.com";
+    const TELEFONO_CONTACTO = "50237660004";
+    const TASA_USD = 7.75;
+    let monedaActual = 'GTQ';
+
+    const RUBROS = [
+        {
+            id: 'dental',
+            nombre: 'Clínica Dental / Médica',
+            icono: '🦷',
+            desc: 'Expediente clínico, historial médico, alergias, citas y control de tratamientos.',
+            precioGTQ: 2200,
+            dias: 6
+        },
+        {
+            id: 'comercio',
+            nombre: 'Punto de Venta e Inventario',
+            icono: '🏪',
+            desc: 'Control de productos, stock mínimo, proveedores, ventas diarias y corte de caja.',
+            precioGTQ: 2000,
+            dias: 5
+        },
+        {
+            id: 'academia',
+            nombre: 'Colegio / Academia',
+            icono: '🎓',
+            desc: 'Registro de alumnos, control de mensualidades/colegiaturas, solvencias y reportes.',
+            precioGTQ: 2100,
+            dias: 5
+        },
+        {
+            id: 'servicios',
+            nombre: 'Taller / Empresa de Servicios',
+            icono: '🛠️',
+            desc: 'Órdenes de trabajo, seguimiento de estados, cotizaciones e historial por cliente.',
+            precioGTQ: 1900,
+            dias: 5
+        }
+    ];
+
+    const PLATAFORMAS = [
+        {
+            id: 'desktop_sqlite',
+            nombre: 'Escritorio Windows + SQLite',
+            icono: '🖥️',
+            desc: 'Instalación local rápida, sin pagos mensuales de servidor.',
+            precioGTQ: 0,
+            dias: 0
+        },
+        {
+            id: 'desktop_server',
+            nombre: 'Escritorio Red + MySQL / PostgreSQL',
+            icono: '🗄️',
+            desc: 'Base de datos cliente-servidor para conectar varias computadoras en la misma oficina.',
+            precioGTQ: 950,
+            dias: 3
+        },
+        {
+            id: 'web_cloud',
+            nombre: 'Sistema Web + Base de Datos Nube',
+            icono: '🌐',
+            desc: 'Acceso desde navegador en PC, tablet o celular desde cualquier lugar con internet.',
+            precioGTQ: 1800,
+            dias: 5
+        }
+    ];
+
+    const MODULOS = [
+        {
+            id: 'clientes',
+            nombre: 'Gestión de Pacientes / Clientes',
+            detalle: 'CRUD completo, búsqueda instantánea, validación de DPI/NIT e historial.',
+            precioGTQ: 450,
+            dias: 1,
+            checked: true
+        },
+        {
+            id: 'citas',
+            nombre: 'Agenda de Citas y Calendario',
+            detalle: 'Control de horarios, estados (Programada, Atendida, Cancelada) y notas.',
+            precioGTQ: 550,
+            dias: 2,
+            checked: true
+        },
+        {
+            id: 'facturacion',
+            nombre: 'Facturación y Comprobantes HTML/PDF',
+            detalle: 'Generación de recibos imprimibles, catálogo de servicios y control de cobros.',
+            precioGTQ: 650,
+            dias: 2,
+            checked: true
+        },
+        {
+            id: 'odontograma',
+            nombre: 'Odontograma Interactivo Gráfico',
+            detalle: 'Mapa dental por pieza y superficie (caries, resinas, extracciones, coronas).',
+            precioGTQ: 1100,
+            dias: 4,
+            checked: false
+        },
+        {
+            id: 'ortodoncia',
+            nombre: 'Control de Ortodoncia / Planes de Pago',
+            detalle: 'Seguimiento mensual de evolución, cuotas pactadas, abonos y saldos pendientes.',
+            precioGTQ: 750,
+            dias: 2,
+            checked: false
+        },
+        {
+            id: 'imagenes',
+            nombre: 'Galería de Radiografías / Archivos',
+            detalle: 'Carga, visualización y respaldo organizado de imágenes clínicas o documentos.',
+            precioGTQ: 500,
+            dias: 2,
+            checked: false
+        },
+        {
+            id: 'reportes',
+            nombre: 'Dashboard Estadístico y Exportación Excel',
+            detalle: 'Gráficas de ingresos mensuales, servicios más solicitados y reportes en .XLSX/.PDF.',
+            precioGTQ: 600,
+            dias: 2,
+            checked: false
+        },
+        {
+            id: 'roles',
+            nombre: 'Roles de Usuario y Seguridad',
+            detalle: 'Inicio de sesión con contraseñas encriptadas (Administrador, Recepción, Operador).',
+            precioGTQ: 450,
+            dias: 1,
+            checked: false
+        }
+    ];
+
+    let rubroSeleccionado = RUBROS[0].id;
+    let plataformaSeleccionada = PLATAFORMAS[0].id;
+
+    function formatMoney(gtq) {
+        if (monedaActual === 'GTQ') {
+            return 'Q ' + gtq.toLocaleString('es-GT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        } else {
+            const usd = gtq / TASA_USD;
+            return '$ ' + usd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+    }
+
+    function setCurrency(curr) {
+        monedaActual = curr;
+        document.getElementById('btnGTQ').classList.toggle('active', curr === 'GTQ');
+        document.getElementById('btnUSD').classList.toggle('active', curr === 'USD');
+        renderRubros();
+        renderPlataformas();
+        renderModulos();
+        actualizarSelectsMoneda();
+        recalcular();
+    }
+
+    function actualizarSelectsMoneda() {
+        const u = document.getElementById('usuariosSelect');
+        u.options[0].text = `1 Usuario (Monopuesto) — Incluido`;
+        u.options[1].text = `2 a 5 Usuarios en Red Local (+${formatMoney(750)})`;
+        u.options[2].text = `6 a 15 Usuarios / Multi-sucursal (+${formatMoney(1600)})`;
+
+        const s = document.getElementById('soporteSelect');
+        s.options[0].text = `30 días de garantía técnica — Incluido`;
+        s.options[1].text = `6 meses de soporte y actualizaciones (+${formatMoney(600)})`;
+        s.options[2].text = `1 año de soporte prioritario + respaldos (+${formatMoney(1100)})`;
+
+        const c = document.getElementById('capacitacionSelect');
+        c.options[0].text = `Manual de usuario en PDF — Incluido`;
+        c.options[1].text = `2 sesiones virtuales en vivo por Zoom/Meet (+${formatMoney(350)})`;
+        c.options[2].text = `Capacitación presencial + video tutoriales (+${formatMoney(700)})`;
+    }
+
+    function renderRubros() {
+        const grid = document.getElementById('rubrosGrid');
+        grid.innerHTML = RUBROS.map(r => `
+            <div class="option-card ${rubroSeleccionado === r.id ? 'selected' : ''}" onclick="seleccionarRubro('${r.id}')">
+                <div>
+                    <div class="option-top">
+                        <span class="option-title">${r.nombre}</span>
+                        <span class="option-icon">${r.icono}</span>
+                    </div>
+                    <p class="option-desc">${r.desc}</p>
+                </div>
+                <div class="option-price">
+                    <span>Base: ${formatMoney(r.precioGTQ)}</span>
+                    <span class="tag-base">+${r.dias} días</span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function renderPlataformas() {
+        const grid = document.getElementById('plataformaGrid');
+        grid.innerHTML = PLATAFORMAS.map(p => `
+            <div class="option-card ${plataformaSeleccionada === p.id ? 'selected' : ''}" onclick="seleccionarPlataforma('${p.id}')">
+                <div>
+                    <div class="option-top">
+                        <span class="option-title">${p.nombre}</span>
+                        <span class="option-icon">${p.icono}</span>
+                    </div>
+                    <p class="option-desc">${p.desc}</p>
+                </div>
+                <div class="option-price">
+                    <span>${p.precioGTQ === 0 ? 'Incluido en base' : '+' + formatMoney(p.precioGTQ)}</span>
+                    <span class="tag-base">${p.dias === 0 ? 'Estándar' : '+' + p.dias + ' días'}</span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function renderModulos() {
+        const grid = document.getElementById('modulosGrid');
+        grid.innerHTML = MODULOS.map((m, idx) => `
+            <label class="module-item ${m.checked ? 'checked' : ''}" for="mod_${m.id}">
+                <input type="checkbox" id="mod_${m.id}" ${m.checked ? 'checked' : ''} onchange="toggleModulo(${idx})">
+                <div class="module-info">
+                    <span class="module-name">${m.nombre}</span>
+                    <span class="module-detail">${m.detalle}</span>
+                    <span class="module-cost">+${formatMoney(m.precioGTQ)} (${m.dias}d)</span>
+                </div>
+            </label>
+        `).join('');
+    }
+
+    function seleccionarRubro(id) {
+        rubroSeleccionado = id;
+        renderRubros();
+        recalcular();
+    }
+
+    function seleccionarPlataforma(id) {
+        plataformaSeleccionada = id;
+        renderPlataformas();
+        recalcular();
+    }
+
+    function toggleModulo(index) {
+        MODULOS[index].checked = !MODULOS[index].checked;
+        renderModulos();
+        recalcular();
+    }
+
+    function cargarEjemploDental() {
+        rubroSeleccionado = 'dental';
+        plataformaSeleccionada = 'desktop_sqlite';
+        const activos = ['clientes', 'citas', 'facturacion', 'odontograma', 'ortodoncia', 'imagenes'];
+        MODULOS.forEach(m => m.checked = activos.includes(m.id));
+        renderRubros();
+        renderPlataformas();
+        renderModulos();
+        recalcular();
+    }
+
+    function obtenerCalculo() {
+        const rubro = RUBROS.find(r => r.id === rubroSeleccionado);
+        const plat = PLATAFORMAS.find(p => p.id === plataformaSeleccionada);
+
+        let items = [
+            { nombre: `Base: ${rubro.nombre}`, precio: rubro.precioGTQ }
+        ];
+        let totalDias = rubro.dias + plat.dias;
+
+        if (plat.precioGTQ > 0) {
+            items.push({ nombre: `Arquitectura: ${plat.nombre}`, precio: plat.precioGTQ });
+        }
+
+        MODULOS.forEach(m => {
+            if (m.checked) {
+                items.push({ nombre: `Módulo: ${m.nombre}`, precio: m.precioGTQ });
+                totalDias += m.dias;
+            }
+        });
+
+        const usuariosSel = document.getElementById('usuariosSelect');
+        const costoUsuarios = parseFloat(usuariosSel.value);
+        const diasUsuarios = parseInt(usuariosSel.options[usuariosSel.selectedIndex].dataset.days);
+        if (costoUsuarios > 0) {
+            items.push({ nombre: usuariosSel.options[usuariosSel.selectedIndex].text.split(' (')[0], precio: costoUsuarios });
+            totalDias += diasUsuarios;
+        }
+
+        const soporteSel = document.getElementById('soporteSelect');
+        const costoSoporte = parseFloat(soporteSel.value);
+        if (costoSoporte > 0) {
+            items.push({ nombre: soporteSel.options[soporteSel.selectedIndex].text.split(' (+')[0], precio: costoSoporte });
+        }
+
+        const capSel = document.getElementById('capacitacionSelect');
+        const costoCap = parseFloat(capSel.value);
+        if (costoCap > 0) {
+            items.push({ nombre: capSel.options[capSel.selectedIndex].text.split(' (+')[0], precio: costoCap });
+        }
+
+        let subtotal = items.reduce((acc, item) => acc + item.precio, 0);
+
+        const urgenciaSel = document.getElementById('urgenciaSelect');
+        const multUrgencia = parseFloat(urgenciaSel.value);
+        if (multUrgencia > 1) {
+            const recargo = subtotal * (multUrgencia - 1);
+            items.push({ nombre: 'Recargo por Entrega Prioritaria (+25%)', precio: recargo });
+            subtotal += recargo;
+            totalDias = Math.max(4, Math.ceil(totalDias * 0.75));
+        }
+
+        return { items, total: subtotal, dias: totalDias };
+    }
+
+    function recalcular() {
+        const calc = obtenerCalculo();
+        const list = document.getElementById('breakdownList');
+
+        list.innerHTML = calc.items.map(item => `
+            <div class="breakdown-row">
+                <span>${item.nombre}</span>
+                <span>${formatMoney(item.precio)}</span>
+            </div>
+        `).join('');
+
+        document.getElementById('totalAmount').textContent = formatMoney(calc.total);
+        document.getElementById('anticipoAmount').textContent = formatMoney(calc.total * 0.5);
+        document.getElementById('entregaAmount').textContent = formatMoney(calc.total * 0.5);
+        document.getElementById('tiempoEstimado').textContent = `⏱ ${calc.dias} días hábiles`;
+    }
+
+    async function enviarPedidoCorreo(e) {
+        e.preventDefault();
+        const btn = document.getElementById('btnSubmitPedido');
+        const textoOriginal = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = "⏳ Enviando pedido a luisma7perez@gmail.com...";
+
+        const calc = obtenerCalculo();
+        const nombre = document.getElementById('clienteNombre').value;
+        const negocio = document.getElementById('clienteNegocio').value;
+        const tel = document.getElementById('clienteTelefono').value;
+        const email = document.getElementById('clienteEmail').value;
+        const notas = document.getElementById('clienteNotas').value;
+
+        const hoy = new Date().toLocaleDateString('es-GT', { year: 'numeric', month: 'long', day: 'numeric' });
+        const codigo = 'COT-' + Math.floor(100000 + Math.random() * 900000);
+
+        // Preparar desglose legible para el correo
+        const desgloseTexto = calc.items.map(i => `• ${i.nombre}: ${formatMoney(i.precio)}`).join('\n');
+
+        const payload = {
+            _subject: `Nuevo Pedido de Software (${codigo}) - ${negocio}`,
+            _template: "table",
+            _captcha: "false",
+            Codigo_Cotizacion: codigo,
+            Fecha: hoy,
+            Cliente: nombre,
+            Empresa_Clinica: negocio,
+            Telefono_WhatsApp: tel,
+            Correo_Cliente: email,
+            Modulos_Seleccionados: desgloseTexto,
+            Tiempo_Estimado: `${calc.dias} días hábiles`,
+            Presupuesto_Total: formatMoney(calc.total),
+            Anticipo_50_Porciento: formatMoney(calc.total * 0.5),
+            Notas_Especiales: notas || "Ninguna"
+        };
+
+        let enviadoPorApi = false;
+        try {
+            const response = await fetch(`https://formsubmit.co/ajax/${CORREO_DESTINO}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+            if (response.ok) {
+                enviadoPorApi = true;
+            }
+        } catch (err) {
+            enviadoPorApi = false;
+        }
+
+        // Si se abre localmente sin internet o bloquea AJAX, abrir cliente de correo como respaldo
+        const alerta = document.getElementById('alertaEnvio');
+        if (enviadoPorApi) {
+            alerta.innerHTML = `✅ <strong>¡Pedido enviado con éxito!</strong> Tu solicitud (${codigo}) llegó directamente a <strong>${CORREO_DESTINO}</strong>. Solo queda confirmar por teléfono o WhatsApp al <strong>3766-0004</strong>.`;
+        } else {
+            const asunto = encodeURIComponent(`Nuevo Pedido de Software (${codigo}) - ${negocio}`);
+            const cuerpo = encodeURIComponent(
+                `Hola Luis, deseo confirmar el siguiente pedido de sistema administrativo:\n\n` +
+                `Código: ${codigo}\nCliente: ${nombre}\nEmpresa: ${negocio}\nTel: ${tel}\nCorreo: ${email}\n\n` +
+                `DETALLE DEL SISTEMA:\n${calc.items.map(i => `- ${i.nombre}: ${formatMoney(i.precio)}`).join('\n')}\n\n` +
+                `Tiempo estimado: ${calc.dias} días hábiles\n` +
+                `TOTAL: ${formatMoney(calc.total)} (50% anticipo: ${formatMoney(calc.total * 0.5)})\n` +
+                `Notas: ${notas || 'Ninguna'}`
+            );
+            window.location.href = `mailto:${CORREO_DESTINO}?subject=${asunto}&body=${cuerpo}`;
+            alerta.innerHTML = `📩 <strong>Se abrió tu aplicación de correo</strong> con todos los datos listos para enviar a <strong>${CORREO_DESTINO}</strong> (solo presiona Enviar en tu correo).`;
+        }
+
+        // Mostrar proforma en pantalla
+        document.getElementById('proformaCodigo').textContent = `Ref: #${codigo}`;
+        document.getElementById('proformaFecha').textContent = hoy;
+        document.getElementById('proformaClienteInfo').innerHTML = `
+            <strong>Cliente:</strong> ${nombre} &nbsp;|&nbsp; <strong>Empresa:</strong> ${negocio}<br>
+            <strong>Contacto:</strong> ${tel} &nbsp;|&nbsp; <strong>Email:</strong> ${email}
+            ${notas ? `<br><strong>Notas del proyecto:</strong> ${notas}` : ''}
+        `;
+
+        document.getElementById('proformaTablaBody').innerHTML = calc.items.map(i => `
+            <tr>
+                <td>${i.nombre}</td>
+                <td><strong>${formatMoney(i.precio)}</strong></td>
+            </tr>
+        `).join('');
+
+        document.getElementById('proformaTiempo').textContent = `${calc.dias} días hábiles`;
+        document.getElementById('proformaTotal').textContent = formatMoney(calc.total);
+        document.getElementById('proformaPagos').textContent = `Forma de pago: 50% anticipo (${formatMoney(calc.total * 0.5)}) y 50% contra entrega (${formatMoney(calc.total * 0.5)})`;
+
+        document.getElementById('modalProforma').classList.add('open');
+        btn.disabled = false;
+        btn.innerHTML = textoOriginal;
+    }
+
+    function cerrarModal() {
+        document.getElementById('modalProforma').classList.remove('open');
+    }
+
+    function enviarWhatsAppDirecto() {
+        const calc = obtenerCalculo();
+        const nombre = document.getElementById('clienteNombre').value || 'Cliente interesado';
+        const negocio = document.getElementById('clienteNegocio').value || 'Mi Negocio';
+
+        let texto = `Hola, te envío la confirmación de mi pedido para un *Sistema Administrativo a Medida*:%0A%0A`;
+        texto += `*Cliente:* ${nombre}%0A`;
+        texto += `*Negocio:* ${negocio}%0A%0A`;
+        texto += `*Desglose seleccionado:*%0A`;
+        calc.items.forEach(i => {
+            texto += `• ${i.nombre}: ${formatMoney(i.precio)}%0A`;
+        });
+        texto += `%0A*Tiempo estimado:* ${calc.dias} días hábiles%0A`;
+        texto += `*Presupuesto Total:* ${formatMoney(calc.total)}`;
+
+        window.open(`https://wa.me/${TELEFONO_CONTACTO}?text=${texto}`, '_blank');
+    }
+
+    // Inicializar vista
+    renderRubros();
+    renderPlataformas();
+    renderModulos();
+    recalcular();
+</script>
+
+</body>
+</html>
